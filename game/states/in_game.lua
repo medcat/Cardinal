@@ -1,13 +1,18 @@
 Cardinal.Game.States.InGame = class("Cardinal.Game.States.InGame"):
   extends(Cardinal.State)
 {
-  enter = function(self)
-    local textEntity = Cardinal.Entity.Text:new("In Game", 800)
-    textEntity.textColor = {255, 255, 255}
+
+  load = function(self)
+    self.map = Cardinal.Game.Maps.Intro:new()
     self.group:
-      add(textEntity):
-      add(Cardinal.Game.Assets.duck):
+      add(self.map):
       addDefaults()
     self.super.load(self)
+  end,
+
+  release = function(self, key)
+    if key == "`" then
+      Cardinal.State.push(Cardinal.Game.States.Console)
+    end
   end,
 }

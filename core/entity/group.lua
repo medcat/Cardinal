@@ -10,17 +10,32 @@ Cardinal.Entity.Group = class("Cardinal.Entity.Group") : extends(Cardinal.Entity
     self.super.initialize(self)
   end,
 
-  add = function(self, entity)
-    if entity:isA(Cardinal.Entity) then
-      table.insert(self.parts, entity)
-    elseif entity:isA(Cardinal.Effect) then
-      table.insert(self.effects, entity)
+  add = function(self, entity, ...)
+    local part
+
+    if type(entity) == "function" then
+      part = class("<anon>.group/function"):
+        extends(Cardinal.Entity)({draw=entity}):new()
+    elseif entity.new then
+      part = entity:new(...)
+    elseif entity.isA and (entity:isA(Cardinal.Entity) or
+      entity:isA(Cardinal.Effect)) then
+      part = entity
     else
-      error("Unknown entity given to Group: " .. entity.class.name)
+      part = class("<anon>.group/table"):
+        extends(Cardinal.Entity)(entity):new()
     end
 
-    if self._loaded then
-      entity:load()
+    if part:isA(Cardinal.Entity) then
+      print("adding entity " .. part.class.name)
+      table.insert(self.parts, part)
+    elseif part:isA(Cardinal.Effect) then
+      print("adding effect " .. part.class.name)
+      table.insert(self.effects, part)
+    end
+
+    if self._loaded and part then
+      part:load()
     end
 
     return self

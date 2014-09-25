@@ -5,6 +5,7 @@
 ]]--
 function class(name)
   local klassable = {__instance={},super=Class,name=name}
+  print("Creating class " .. name)
 
   setmetatable(klassable, {__call=function(self, definition)
     klassable.__instance = definition or self
@@ -62,6 +63,7 @@ Class =
 
   __instance =
   {
+    initialize = function() end,
     isA = function(self, check)
       assert(self and check, "Nil passed to isA")
       return self.class:hasParent(check)

@@ -19,7 +19,6 @@ duck.variants.default = class("duck.variants.default"):
   end,
 
   draw = function(self)
-    print("drawing duck")
     love.graphics.draw(self.duck)
   end
 
