@@ -23,9 +23,16 @@ Cardinal.Game.States.MainMenu = class("Cardinal.Game.States.MainMenu"):
     self.super.load(self)
   end,
 
+  leave = function(self)
+    love.mouse.setGrabbed(false)
+    love.mouse.setVisible(true)
+  end,
+
   release = function(self, k)
     if k == "`" then
       Cardinal.State.transitionTo(Cardinal.Game.States.Console)
+    elseif k == "c" then
+      Cardinal.State.transitionTo(Cardinal.Game.States.InGame)
     end
   end,
 

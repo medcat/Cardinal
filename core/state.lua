@@ -37,5 +37,6 @@ Cardinal.State.transitionTo = function(to)
 
   stateInstance = to:new()
   stateInstance:enter()
+  love.graphics.clear()
   Cardinal.State.current = stateInstance
 end

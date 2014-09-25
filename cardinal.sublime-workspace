@@ -72,10 +72,10 @@
 	"buffers":
 	[
 		{
-			"file": "game/maps/intro.lua",
+			"file": "game/states/in_game.lua",
 			"settings":
 			{
-				"buffer_size": 1495,
+				"buffer_size": 396,
 				"line_ending": "Windows"
 			}
 		},
@@ -83,23 +83,15 @@
 			"file": "core/map.lua",
 			"settings":
 			{
-				"buffer_size": 824,
+				"buffer_size": 1682,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "game/states/console.lua",
+			"file": "core/state.lua",
 			"settings":
 			{
-				"buffer_size": 2288,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "core/entity/text.lua",
-			"settings":
-			{
-				"buffer_size": 463,
+				"buffer_size": 827,
 				"line_ending": "Windows"
 			}
 		}
@@ -144,17 +136,23 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Generic/Documents/GitHub/Cardinal",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/core",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/core/asset",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/core/entity",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/ext",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/game",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/game/maps",
-		"/C/Users/Generic/Documents/GitHub/Cardinal/game/states"
+		"/C/Users/drcat/Documents/GitHub/Cardinal",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/assets",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/core",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game/states"
 	],
 	"file_history":
 	[
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game/maps/intro.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/core/map.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game/states/main_menu.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/core/state.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game/states/in_game.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game/states/console.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/core/entity/text.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/main.lua",
+		"/C/Users/drcat/Documents/GitHub/Cardinal/game/states.lua",
 		"/C/Users/Generic/Documents/GitHub/Cardinal/game/states/in_game.lua",
 		"/C/Users/Generic/Documents/GitHub/Cardinal/game/maps/intro.lua",
 		"/C/Users/Generic/Documents/GitHub/Cardinal/main.lua",
@@ -228,6 +226,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"spritebuffer",
 			"isChildOf",
 			"scaleRatio",
 			" {4}",
@@ -241,6 +240,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"spritebatch",
 			"hasParent",
 			"scale",
 			"  ",
@@ -256,37 +256,35 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "game/maps/intro.lua",
+					"file": "game/states/in_game.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1495,
+						"buffer_size": 396,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								199,
-								199
+								385,
+								385
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Lua/Lua.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Lua/Lua.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 241.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -295,73 +293,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 824,
+						"buffer_size": 1682,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								780,
-								780
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.tmLanguage"
-						},
-						"translation.x": -0.0,
-						"translation.y": 95.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "game/states/console.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2288,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								896,
-								896
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 136.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "core/entity/text.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 463,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								206,
-								206
+								261,
+								261
 							]
 						],
 						"settings":
@@ -374,7 +314,37 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "core/state.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 827,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -422,7 +392,7 @@
 	"project": "cardinal.sublime-project",
 	"replace":
 	{
-		"height": 76.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":

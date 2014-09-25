@@ -13,6 +13,7 @@ require "core.map"
 require "game.assets"
 require "game.effects"
 require "game.states"
+require "game.maps"
 
 function love.load()
   Cardinal.Screen.current = Cardinal.Screen:new()

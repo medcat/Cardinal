@@ -22,7 +22,9 @@ Cardinal.Game.Maps.Intro._data = {
   },
 
   tiles = {
-    { solid = false }
+    { solid = false },
+    { solid = false },
+    { solid = false },
   },
 
   layers = {
