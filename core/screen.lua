@@ -84,10 +84,26 @@ Cardinal.Screen = class("Cardinal.Screen")
   enterEncapsulate = function(self)
     love.graphics.push()
     love.graphics.scale(self.scale)
-    love.graphics.translate(self.offset.x, self.offset.y * 2)
+    love.graphics.translate(self.offset.x, self.offset.y)
   end,
 
   exitEncapsulate = function(self)
+    love.graphics.pop()
+  end,
+
+  dencapsulate = function(self, func, ...)
+    self:enterDencapsulate()
+    func(...)
+    self:exitDencapsulate()
+  end,
+
+  enterDencapsulate = function(self)
+    love.graphics.push()
+    love.graphics.scale(1 / self.scale)
+    love.graphics.origin()
+  end,
+
+  exitDencapsulate = function(self)
     love.graphics.pop()
   end,
 }

@@ -18,30 +18,30 @@ require "game.maps"
 function love.load()
   Cardinal.Screen.current = Cardinal.Screen:new()
   Cardinal.Controller.current = Cardinal.Controller.Keyboard:new()
-  Cardinal.State.transitionTo(Cardinal.Game.States.MainMenu)
+  Cardinal.State.replace(Cardinal.Game.States.MainMenu)
   Cardinal.Screen.current:update()
   print(Cardinal.Screen.current:output())
 end
 
 function love.update(dt)
   Cardinal.Screen.current:update()
-  Cardinal.State.current:update(dt)
+  Cardinal.State.current():update(dt)
 end
 
 function love.textinput(t)
-  Cardinal.State.current:input(t)
+  Cardinal.State.current():input(t)
 end
 
 function love.keypressed(k, r)
-  Cardinal.State.current:press(k, r)
+  Cardinal.State.current():press(k, r)
 end
 
 function love.keyreleased(k)
-  Cardinal.State.current:release(k, r)
+  Cardinal.State.current():release(k, r)
 end
 
 function love.draw()
   Cardinal.Screen.current:encapsulate(function()
-    Cardinal.State.current:draw()
+    Cardinal.State.current():draw()
   end)
 end
