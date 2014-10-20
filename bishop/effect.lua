@@ -1,8 +1,8 @@
-bishop.effect = class("bishop.effect")
-{
-  load       = function() end,
-  beforeAll  = function() end,
-  afterAll   = function() end,
-  beforeEach = function(drawable) end,
-  afterEach  = function(drawable) end
-}
+define "bishop.effect":
+as(function(class, instance)
+  function instance:load() end
+  function instance:beforeAll() end
+  function instance:afterAll() end
+  function instance:beforeEach(drawable) end
+  function instance:afterEach(drawable) end
+end)

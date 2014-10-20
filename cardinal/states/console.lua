@@ -1,20 +1,19 @@
-cardinal.states.console = class("cardinal.states.console"):
-  extends(bishop.state)
-{
-  enter = function(self)
+define "cardinal.states.console": extends "bishop.state":
+as(function(class, instance)
+  function instance:enter()
     love.keyboard.setTextInput(true)
     love.keyboard.setKeyRepeat(true)
     self.screenshot = love.graphics.newImage(love.graphics.newScreenshot())
     self.super.enter(self)
-  end,
+  end
 
-  leave = function(self)
+  function instance:leave()
     love.keyboard.setTextInput(false)
     love.keyboard.setKeyRepeat(false)
     self.super.leave(self)
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     self.inputBox = bishop.entity.text:new("", 0,
       bishop.screen.current.internal.height - 32)
     self.historyBox = bishop.entity.text:new("")
@@ -48,15 +47,15 @@ cardinal.states.console = class("cardinal.states.console"):
 
     self.line = ""
     self.super.load(self)
-  end,
+  end
 
-  input = function(self, t)
+  function instance:input(t)
     if t ~= "`" then
       self.line = self.line .. t
     end
-  end,
+  end
 
-  press = function(self, k, r)
+  function instance:press(k, r)
     local body, func, val, status, err = nil
     if k == "backspace" then
       self.line = string.sub(self.line, 1, -2)
@@ -86,15 +85,15 @@ cardinal.states.console = class("cardinal.states.console"):
       self.inputBox.text = "> \x7c"
       self.historyBox.text = table.concat(bishop.console.history, "\n")
     end
-  end,
+  end
 
-  release = function(self, k)
+  function instance:release(k)
     if k == "`" then
       bishop.state.pop()
     end
-  end,
+  end
 
-  update = function(self, dt)
+  function instance:update(dt)
     self.inputBox.text = "> " .. self.line .. "\x7c"
     self.historyBox.text = table.concat(bishop.console.history, "\n")
     self.super.update(self, dt)
@@ -102,5 +101,5 @@ cardinal.states.console = class("cardinal.states.console"):
     if bishop.controller.current:isPressed("exit") then
       love.event.quit()
     end
-  end,
-}
+  end
+end)

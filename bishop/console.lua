@@ -1,6 +1,8 @@
-bishop.console = {
-  history = {},
-  log = function(self, part)
+define "bishop.console": type "module":
+as(function(console)
+  console.history = {}
+  console.limit   = 24
+  function console:log(part)
     local value
 
     value = tostring(part)
@@ -13,6 +15,6 @@ bishop.console = {
     if #self.history > self.limit then
       self.history = { unpack(self.history, #self.history - self.limit, #self.history) }
     end
-  end,
-  limit = 24,
-}
+  end
+
+end)

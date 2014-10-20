@@ -1,14 +1,13 @@
-bishop.entity = class("bishop.entity"):
-  extends(bishop.drawable)
-{
-  coord = nil,
-  size = nil,
+define "bishop.entity": extends "bishop.drawable":
+as(function(class, instance)
+  instance.coord = nil
+  instance.size = nil
 
-  initialize = function(self, x, y, width, height)
+  function instance:initialize(x, y, width, height)
     self.coord = { x = x or 0, y = y or 0 }
     self.size  = { width = width or 0, height = height or 0 }
-  end,
-}
+  end
+end)
 
 require "bishop.entity.group"
 require "bishop.entity.text"

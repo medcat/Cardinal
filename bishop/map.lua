@@ -1,14 +1,14 @@
-bishop.map = class("bishop.map"):
-  extends(bishop.entity)
-{
-  mapData = nil,
-  position = nil,
+define "bishop.map": extends "bishop.entity":
+as(function(class, instance)
 
-  initialize = function(self)
+  instance.mapData = nil
+  instance.position = nil
+
+  function instance:initialize()
     self.position = { x = 0, y = 0 }
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     local image, row, col, tile
     self.mapData.set.image = love.graphics.newImage("assets/main.jpg")
     image = self.mapData.set.image
@@ -35,9 +35,9 @@ bishop.map = class("bishop.map"):
       end
     end
     self.spritebatch:unbind()
-  end,
+  end
 
-  draw = function(self)
+  function instance:draw()
     love.graphics.draw(self.spritebatch)
-  end,
-}
+  end
+end)

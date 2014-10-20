@@ -1,19 +1,18 @@
-cardinal.effects.backgroundColor = class("cardinal.effects.backgroundColor"):
-  extends(bishop.effect)
-{
-  initialize = function(self, color)
+define "cardinal.effects.backgroundColor": extends "bishop.effect":
+as(function(class, instance)
+  function instance:initialize(color)
     self.color = color
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     self.oldColor = {love.graphics.getBackgroundColor()}
-  end,
+  end
 
-  beforeAll = function(self)
+  function instance:beforeAll()
     love.graphics.setBackgroundColor(unpack(self.color))
-  end,
+  end
 
-  afterAll = function(self)
+  function instance:afterAll()
     --love.graphics.setBackgroundColor(unpack(self.oldColor))
-  end,
-}
+  end
+end)

@@ -1,22 +1,21 @@
-cardinal.effects.reset = class("cardinal.effects.reset"):
-  extends(bishop.effect)
-{
-  options = {},
+define "cardinal.effects.reset": extends "bishop.effect":
+as(function(class, instance)
+  instance.options = {}
 
-  initialize = function(self, options)
+  function instance:initialize(options)
     options = options or {"all"}
     for i, v in ipairs(options) do
       self.options[v] = true
     end
-  end,
+  end
 
-  beforeEach = function(self)
+  function instance:beforeEach()
     if self.options.context or self.options.all then
       love.graphics.push()
     end
-  end,
+  end
 
-  afterEach = function(self)
+  function instance:afterEach()
     if self.options.context or self.options.all then
       love.graphics.pop()
     end
@@ -60,4 +59,4 @@ cardinal.effects.reset = class("cardinal.effects.reset"):
       love.graphics.setPointStyle("smooth")
     end
   end
-}
+end)

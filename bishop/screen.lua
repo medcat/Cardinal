@@ -1,22 +1,22 @@
-bishop.screen = class("bishop.screen")
-{
-  real = nil,
-  size = nil,
-  offset = nil,
-  internal = nil,
-  scale = 0.0,
+define "bishop.screen":
+as(function(class, instance)
+  instance.real = nil
+  instance.size = nil
+  instance.offset = nil
+  instance.internal = nil
+  instance.scale = 0.0
 
   -- x: relative to width
   -- y: relative to height
 
-  initialize = function(self)
+  function instance:initialize()
     self.internal = { width = 1600, height = 900 }
     self.offset = { x = 0, y = 0 }
     self.real = { width = 0, height = 0 }
     self.size = { width = 0, height = 0 }
-  end,
+  end
 
-  update = function(self)
+  function instance:update()
     local width, height
     width, height = love.window.getMode()
     if self.real.width == width and self.real.height == height then
@@ -24,9 +24,9 @@ bishop.screen = class("bishop.screen")
     else
       return self:refresh(width, height)
     end
-  end,
+  end
 
-  refresh = function(self, realWidth, realHeight)
+  function instance:refresh(realWidth, realHeight)
     local horizontalScale, verticalScale, newSize
 
     self.real.width = realWidth
@@ -55,16 +55,16 @@ bishop.screen = class("bishop.screen")
     self.offset.y = (math.abs(self.size.height - realHeight) / 2)
 
     return self
-  end,
+  end
 
-  output = function(self)
+  function instance:output()
     return "[screen] scale: " .. self.scale .. " " ..
       "real: (" .. self.real.width .. ", " .. self.real.height .. ") " ..
       "offset: (" .. self.offset.x .. ", " .. self.offset.y    .. ") " ..
       "new: (" ..  self.size.width .. ", " .. self.size.height .. ") "
-  end,
+  end
 
-  translate = function(self, coordinate)
+  function instance:translate(coordinate)
     local realX, realY
     if coordinate.realCoordinate then
       return coordinate
@@ -73,41 +73,41 @@ bishop.screen = class("bishop.screen")
       realY = ((coordinate.y / self.height) * self.realHeight)
       return bishop.screen.coordinate:new(realX, realY, true)
     end
-  end,
+  end
 
-  encapsulate = function(self, func, ...)
+  function instance:encapsulate(func, ...)
     self:enterEncapsulate()
     func(...)
     self:exitEncapsulate()
-  end,
+  end
 
-  enterEncapsulate = function(self)
+  function instance:enterEncapsulate()
     love.graphics.push()
     love.graphics.translate(self.offset.x, self.offset.y)
     love.graphics.scale(self.scale)
     love.graphics.setScissor(self.offset.x, self.offset.y,
       self.size.width, self.size.height)
-  end,
+  end
 
-  exitEncapsulate = function(self)
+  function instance:exitEncapsulate()
     love.graphics.pop()
-  end,
+  end
 
-  dencapsulate = function(self, func, ...)
+  function instance:dencapsulate(func, ...)
     self:enterDencapsulate()
     func(...)
     self:exitDencapsulate()
-  end,
+  end
 
-  enterDencapsulate = function(self)
+  function instance:enterDencapsulate()
     love.graphics.push()
     love.graphics.origin()
     love.graphics.setScissor()
-  end,
+  end
 
-  exitDencapsulate = function(self)
+  function instance:exitDencapsulate()
     love.graphics.pop()
     love.graphics.setScissor(self.offset.x, self.offset.y,
       self.size.width, self.size.height)
-  end,
-}
+  end
+end)

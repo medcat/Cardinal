@@ -1,90 +1,92 @@
-bishop.state = class("bishop.state"):
-  extends(bishop.drawable)
-{
-  group = nil,
+define "bishop.state": extends "bishop.drawable":
+as(function(class, instance)
 
-  initialize = function(self)
+  instance.group = nil
+
+  function instance:initialize()
     self.group = bishop.entity.group:new()
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     bishop.console:log("[state] load " .. self.class.name)
     self.group:load()
-  end,
+  end
 
-  unload = function(self)
+  function instance:unload()
     bishop.console:log("[state] unload " .. self.class.name)
-  end,
+  end
+
   -- This is called when the state is entered; this is different
   -- than the load function, because that is called when the
   -- state is created.  Enter is called after load.
-  enter = function(self)
+  function instance:enter()
     bishop.console:log("[state] enter " .. self.class.name)
-  end,
+  end
+
   -- This is called when the state is left; the state may not be
   -- unloaded after the leave.  It is called before unload.
-  leave = function(self)
+  function instance:leave()
     bishop.console:log("[state] leave " .. self.class.name)
-  end,
-
-  draw = function(self)
-    self.group:draw()
-  end,
-
-  update = function(self, dt)
-    self.group:update(dt)
-  end,
-
-  input = function(self) end,
-  press = function(self) end,
-  release = function(self) end,
-}
-
-bishop.state.stack = {}
-function bishop.state.current()
-  return bishop.state.stack[#bishop.state.stack]
-end
-
-function bishop.state.push(state)
-  local stateInstance, current
-  current = bishop.state.current()
-  if current then
-    current:leave()
   end
 
-  stateInstance = state:new()
-  stateInstance:load()
-  stateInstance:enter()
-  bishop.console:log("[state/manager.push] pushing " .. state.name)
-  table.insert(bishop.state.stack, stateInstance)
-  return stateInstance
-end
+  function instance:draw()
+    self.group:draw()
+  end
 
-function bishop.state.pop()
-  local stateInstance = bishop.state.current()
-  stateInstance:leave()
-  stateInstance:unload()
-  bishop.console:log("[state/manager.pop] popping " .. stateInstance.class.name)
-  table.remove(bishop.state.stack)
-  bishop.console:log("[state/manager.pop] entering previous")
-  bishop.state.current():enter()
-  bishop.console:log("[state/manager.pop] pop over")
-end
+  function instance:update(dt)
+    self.group:update(dt)
+  end
 
-function bishop.state.replace(state)
-  local stateInstance = bishop.state.current()
-  if stateInstance then
+  function instance:input() end
+  function instance:press() end
+  function instance:release() end
+
+  class.stack = {}
+  function class.current()
+    return class.stack[#class.stack]
+  end
+
+  function class.push(pushed)
+    local stateInstance, current
+    current = class.current()
+    if current then
+      current:leave()
+    end
+
+    stateInstance = pushed:new()
+    stateInstance:load()
+    stateInstance:enter()
+    bishop.console:log("[state/manager.push] pushing " .. pushed.name)
+    table.insert(class.stack, stateInstance)
+    return stateInstance
+  end
+
+  function class.pop()
+    local stateInstance = class.current()
     stateInstance:leave()
     stateInstance:unload()
-    bishop.console:log("[state/manager.replace] " .. stateInstance.class.name .. " -> " .. state.name)
-  else
-    bishop.console:log("[state/manager.replace] pushing " .. state.name)
+    bishop.console:log("[state/manager.pop] popping " .. stateInstance.class.name)
+    table.remove(class.stack)
+    bishop.console:log("[state/manager.pop] entering previous")
+    class.current():enter()
+    bishop.console:log("[state/manager.pop] pop over")
   end
-  table.remove(bishop.state.stack)
-  stateInstance = state:new()
-  stateInstance:load()
-  stateInstance:enter()
-  table.insert(bishop.state.stack, stateInstance)
-  return stateInstance
 
-end
+  function class.replace(state)
+    local stateInstance = class.current()
+    if stateInstance then
+      stateInstance:leave()
+      stateInstance:unload()
+      bishop.console:log("[state/manager.replace] " .. stateInstance.class.name .. " -> " .. state.name)
+    else
+      bishop.console:log("[state/manager.replace] pushing " .. state.name)
+    end
+    table.remove(class.stack)
+    stateInstance = state:new()
+    stateInstance:load()
+    stateInstance:enter()
+    table.insert(class.stack, stateInstance)
+    return stateInstance
+
+  end
+end)

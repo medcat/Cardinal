@@ -1,42 +1,41 @@
-bishop.asset = class("bishop.asset"):
-  extends(bishop.entity)
-{
-  variants = nil,
-  variantKey = nil,
+define "bishop.asset": extends "bishop.entity":
+as(function(class, instance)
+  instance.variants = nil
+  instance.variantKey = nil
 
-  initialize = function(self)
+  function instance:initialize()
     self.variantKey = "default"
     self.variants = {}
     self.super.initialize(self)
-  end,
+  end
 
-  variant = function(self)
+  function instance:variant()
     return self.variants[self.variantKey]
-  end,
+  end
 
   --[[
   Forward all of our Entity functions to the variant.
   ]]--
-  load = function(self)
+  function instance:load()
     return self:variant():load()
-  end,
+  end
 
-  update = function(self, dt)
+  function instance:update(dt)
     return self:variant():update(dt)
-  end,
+  end
 
-  draw = function(self)
+  function instance:draw()
     return self:variant():draw()
-  end,
+  end
 
-  keypress = function(self, key)
+  function instance:keypress(key)
     return self:variant():keypress(key)
-  end,
+  end
 
-  keyrelease = function(self, key)
+  function instance:keyrelease(key)
     return self:variant():keyrelease(key)
   end
-}
+end)
 
 require "bishop.asset.variant"
 require "bishop.asset.image"

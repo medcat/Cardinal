@@ -1,7 +1,7 @@
-bishop.drawable = class("bishop.drawable")
-{
-  zindex = 1,
-  load   = function() end,
-  update = function(dt) end,
-  draw   = function() end
-}
+define "bishop.drawable":
+as(function(class, instance)
+  instance.zindex = 1
+  function instance:load() end
+  function instance:update(dt) end
+  function instance:draw() end
+end)

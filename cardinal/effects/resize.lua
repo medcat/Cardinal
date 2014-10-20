@@ -1,17 +1,16 @@
-cardinal.effects.resize = class("cardinal.effects.resize"):
-  extends(bishop.effect)
-{
-  initialize = function(self, screen)
+define "cardinal.effects.resize": extends "bishop.effect":
+as(function(class, instance)
+  function instance:initialize(screen)
     self.screen = screen
-  end,
+  end
 
   --[[
-  beforeAll = function(self)
+  function instance:beforeAll()
     self.screen:enterEncapsulate()
   end,
 
-  afterAll = function(self)
+  function instance:afterAll()
     self.screen:exitEncapsulate()
   end
   ]]--
-}
+end)

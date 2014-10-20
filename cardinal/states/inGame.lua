@@ -1,18 +1,16 @@
-cardinal.states.inGame = class("cardinal.states.inGame"):
-  extends(bishop.state)
-{
-
-  load = function(self)
+define "cardinal.states.inGame": extends "bishop.state":
+as(function(class, instance)
+  function instance:load()
     self.map = cardinal.maps.intro:new()
     self.group:
       add(self.map):
       addDefaults()
     self.super.load(self)
-  end,
+  end
 
-  release = function(self, key)
+  function instance:release(key)
     if key == "`" then
       bishop.state.push(cardinal.states.console)
     end
-  end,
-}
+  end
+end)
