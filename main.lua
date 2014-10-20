@@ -1,34 +1,34 @@
 require "ext"
-require "core"
-require "game"
+require "bishop"
+require "cardinal"
 
 function love.load()
-  Cardinal.Screen.current = Cardinal.Screen:new()
-  Cardinal.Controller.current = Cardinal.Controller.Keyboard:new()
-  Cardinal.State.push(Cardinal.Game.States.MainMenu)
-  Cardinal.Screen.current:update()
-  Cardinal.Console:log(Cardinal.Screen.current:output())
+  bishop.screen.current = bishop.screen:new()
+  bishop.controller.current = bishop.controller.keyboard:new()
+  bishop.state.push(cardinal.states.mainMenu)
+  bishop.screen.current:update()
+  bishop.console:log(bishop.screen.current:output())
 end
 
 function love.update(dt)
-  Cardinal.Screen.current:update()
-  Cardinal.State.current():update(dt)
+  bishop.screen.current:update()
+  bishop.state.current():update(dt)
 end
 
 function love.textinput(t)
-  Cardinal.State.current():input(t)
+  bishop.state.current():input(t)
 end
 
 function love.keypressed(k, r)
-  Cardinal.State.current():press(k, r)
+  bishop.state.current():press(k, r)
 end
 
 function love.keyreleased(k)
-  Cardinal.State.current():release(k, r)
+  bishop.state.current():release(k, r)
 end
 
 function love.draw()
-  Cardinal.Screen.current:encapsulate(function()
-    Cardinal.State.current():draw()
+  bishop.screen.current:encapsulate(function()
+    bishop.state.current():draw()
   end)
 end
