@@ -1,4 +1,4 @@
-cardinal.states = {}
+define.module "cardinal.states"
 
 require "cardinal.states.mainMenu"
 require "cardinal.states.console"

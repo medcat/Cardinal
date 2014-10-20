@@ -1,4 +1,4 @@
-bishop = {}
+define.module "bishop"
 
 require "bishop.console"
 require "bishop.drawable"
@@ -9,3 +9,4 @@ require "bishop.asset"
 require "bishop.state"
 require "bishop.controller"
 require "bishop.map"
+require "bishop.game"
