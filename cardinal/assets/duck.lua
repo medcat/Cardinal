@@ -1,10 +1,9 @@
---[[cardinal.assets.duck = bishop.asset:new()
+cardinal.assets.duck = bishop.asset:new()
 local duck = cardinal.assets.duck
 
-duck.variants.default = class("duck.variants.default"):
-  extends(bishop.asset.variant)
-{
-  initialize = function(self)
+duck.variants.default = define.anon("duck.variant.default"):
+extends("bishop.asset.variant"): as(function(class, instance)
+  function instance:initialize()
     self.super.initialize(self)
     self.path  = "assets/duck.jpg"
     self.coord = { x = 0, y = 200 }
@@ -12,15 +11,13 @@ duck.variants.default = class("duck.variants.default"):
       width    = 800,
       height   = 765
     }
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     self.image = love.graphics.newImage(self.path)
-  end,
+  end
 
-  draw = function(self)
+  function instance:draw()
     love.graphics.draw(self.image)
-  end,
-
-}:new()
-]]
+  end
+end):new()

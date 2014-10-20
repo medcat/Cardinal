@@ -15,34 +15,36 @@ as(function(class, instance)
 
   function instance:load()
     self.inputBox = bishop.entity.text:new("", 0,
-      bishop.screen.current.internal.height - 32)
+      cardinal.screen.internal.height - 32)
     self.historyBox = bishop.entity.text:new("")
     self.inputBox.textColor = {255, 255, 255}
     self.historyBox.textColor = {255, 255, 255}
 
     self.group:
-      add({
-        zindex = 0,
-        initialize = function(self)
+      add(function(_, inst)
+        inst.zindex = 0
+
+        function inst:initialize()
           self.super.initialize(self, 0, 0, 1600, 900)
-        end,
-        draw = function(self)
-          love.graphics.setColor(0, 0, 0, 125)
+        end
+
+        function inst:draw()
+          love.graphics.setColor(0, 0, 0, 175)
           love.graphics.rectangle("fill", self.coord.x, self.coord.y,
             self.size.width, self.size.height)
         end
-      }):
-      add({
-        zindex = -1,
-        draw = function(this)
-          bishop.screen.current:dencapsulate(function()
+      end):
+      add(function(_, inst)
+        inst.zindex = -1
+        function inst.draw(this)
+          cardinal.screen:dencapsulate(function()
             love.graphics.draw(self.screenshot, 0, 0)
           end)
-        end,
-      }):
+        end
+      end):
       add(self.inputBox):
       add(self.historyBox):
-      add(cardinal.effects.font, "assets/inconsolata.otf", 32):
+      add(cardinal.effects.font, "assets/anonpro.ttf", 34):
       addDefaults()
 
     self.line = ""
@@ -64,7 +66,7 @@ as(function(class, instance)
         self.line = "return " .. self.line
       end
 
-      bishop.console:log("> " .. self.line)
+      cardinal.console:log("> " .. self.line)
 
       status, func = loadstring(self.line)
 
@@ -76,29 +78,29 @@ as(function(class, instance)
       end
 
       if err then
-        bishop.console:log("] error: " .. tostring(err))
+        cardinal.console:log("] error: " .. tostring(err))
       else
-        bishop.console:log("] " .. tostring(val))
+        cardinal.console:log("] " .. tostring(val))
       end
 
       self.line = ""
       self.inputBox.text = "> \x7c"
-      self.historyBox.text = table.concat(bishop.console.history, "\n")
+      self.historyBox.text = table.concat(cardinal.console.history, "\n")
     end
   end
 
   function instance:release(k)
     if k == "`" then
-      bishop.state.pop()
+      cardinal.stack:pop()
     end
   end
 
   function instance:update(dt)
     self.inputBox.text = "> " .. self.line .. "\x7c"
-    self.historyBox.text = table.concat(bishop.console.history, "\n")
+    self.historyBox.text = table.concat(cardinal.console.history, "\n")
     self.super.update(self, dt)
 
-    if bishop.controller.current:isPressed("exit") then
+    if cardinal.controller:isPressed("exit") then
       love.event.quit()
     end
   end

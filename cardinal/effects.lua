@@ -1,4 +1,4 @@
-cardinal.effects = {}
+define.module "cardinal.effects"
 
 require "cardinal.effects.resize"
 require "cardinal.effects.font"

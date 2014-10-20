@@ -15,26 +15,26 @@ as(function(class, instance)
     local part
 
     if type(entity) == "function" then
-      --part = class("<anon>.group/function"):
-      --  extends(bishop.entity)({draw=entity}):new()
       part = define.anon("<anon>.group.function"):
         extends("bishop.entity"):
         as(entity):new()
-    elseif entity.new then
+    elseif entity and entity.new then
       part = entity:new(...)
-    elseif entity.isA and (entity:isA(bishop.entity) or
-      entity:isA(bishop.effect)) then
+    elseif entity and entity.isa and (entity:isa(bishop.entity) or
+      entity:isa(bishop.effect)) then
       part = entity
     else
       error("Unknown entity type!")
     end
 
-    if part:isA(bishop.entity) then
+    if part:isa(bishop.entity) then
       bishop.console:log("[group] adding entity " .. tostring(part))
       table.insert(self.parts, part)
-    elseif part:isA(bishop.effect) then
+    elseif part:isa(bishop.effect) then
       bishop.console:log("[group] adding effect " .. tostring(part))
       table.insert(self.effects, part)
+    else
+      error("Unknown entity instance!")
     end
 
     if self._loaded and part then

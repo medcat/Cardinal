@@ -3,17 +3,17 @@ as(function(class, instance)
   function instance:load()
     self.group:
       add(bishop.entity.text, "Main Menu", 800):
-      add({
-        load = function(self)
+      add(function(_, inst)
+        function inst:load()
           self.zindex = 0
-        end,
+        end
 
-        draw = function(self)
-          local screen = bishop.screen.current
+        function inst:draw()
+          local screen = cardinal.screen
           love.graphics.setColor(255, 255, 255)
           love.graphics.rectangle("fill", 0, 0, screen.internal.width, screen.internal.height)
-        end,
-      }):
+        end
+      end):
       add(cardinal.assets.duck):
       add(cardinal.effects.font, "assets/yoster.ttf", 24):
       add(cardinal.effects.backgroundColor, {255, 255, 255, 255}):
@@ -36,14 +36,14 @@ as(function(class, instance)
 
   function instance:release(k)
     if k == "`" then
-      bishop.state.push(cardinal.states.console)
+      cardinal.stack:push(cardinal.states.console)
     elseif k == "c" then
-      bishop.state.push(cardinal.states.inGame)
+      cardinal.stack:push(cardinal.states.inGame)
     end
   end
 
   function instance:update(dt)
-    if bishop.controller.current:isPressed("exit") then
+    if cardinal.controller:isPressed("exit") then
       love.event.quit()
     end
   end
