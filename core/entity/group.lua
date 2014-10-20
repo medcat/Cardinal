@@ -27,10 +27,10 @@ Cardinal.Entity.Group = class("Cardinal.Entity.Group") : extends(Cardinal.Entity
     end
 
     if part:isA(Cardinal.Entity) then
-      print("adding entity " .. part.class.name)
+      Cardinal.Console:log("[group] adding entity " .. tostring(part))
       table.insert(self.parts, part)
     elseif part:isA(Cardinal.Effect) then
-      print("adding effect " .. part.class.name)
+      Cardinal.Console:log("[group] adding effect " .. tostring(part))
       table.insert(self.effects, part)
     end
 
@@ -43,7 +43,7 @@ Cardinal.Entity.Group = class("Cardinal.Entity.Group") : extends(Cardinal.Entity
 
   addDefaults = function(self)
     self:add(Cardinal.Game.Effects.Reset:new())
-    self:add(Cardinal.Game.Effects.Resize:new(Cardinal.Screen.current))
+    --self:add(Cardinal.Game.Effects.Resize:new(Cardinal.Screen.current))
     return self
   end,
 

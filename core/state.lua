@@ -8,23 +8,23 @@ Cardinal.State = class("Cardinal.State"):
   end,
 
   load = function(self)
-    print("State Load: " .. self.class.name)
+    Cardinal.Console:log("[state] load " .. self.class.name)
     self.group:load()
   end,
 
   unload = function(self)
-    print("State Unload: " .. self.class.name)
+    Cardinal.Console:log("[state] unload " .. self.class.name)
   end,
   -- This is called when the state is entered; this is different
   -- than the load function, because that is called when the
   -- state is created.  Enter is called after load.
   enter = function(self)
-    print("State Enter: " .. self.class.name)
+    Cardinal.Console:log("[state] enter " .. self.class.name)
   end,
   -- This is called when the state is left; the state may not be
   -- unloaded after the leave.  It is called before unload.
   leave = function(self)
-    print("State Leave: " .. self.class.name)
+    Cardinal.Console:log("[state] leave " .. self.class.name)
   end,
 
   draw = function(self)
@@ -55,7 +55,7 @@ function Cardinal.State.push(state)
   stateInstance = state:new()
   stateInstance:load()
   stateInstance:enter()
-  print("Pushing state " .. state.name)
+  Cardinal.Console:log("[state/manager.push] pushing " .. state.name)
   table.insert(Cardinal.State.stack, stateInstance)
   return stateInstance
 end
@@ -64,11 +64,11 @@ function Cardinal.State.pop()
   local stateInstance = Cardinal.State.current()
   stateInstance:leave()
   stateInstance:unload()
-  print("Popping state " .. stateInstance.class.name)
+  Cardinal.Console:log("[state/manager.pop] popping " .. stateInstance.class.name)
   table.remove(Cardinal.State.stack)
-  print("Entering state...")
+  Cardinal.Console:log("[state/manager.pop] entering previous")
   Cardinal.State.current():enter()
-  print("Done with pop.")
+  Cardinal.Console:log("[state/manager.pop] pop over")
 end
 
 function Cardinal.State.replace(state)
@@ -76,9 +76,9 @@ function Cardinal.State.replace(state)
   if stateInstance then
     stateInstance:leave()
     stateInstance:unload()
-    print("Replacing " .. stateInstance.class.name .. " with " .. state.name)
+    Cardinal.Console:log("[state/manager.replace] " .. stateInstance.class.name .. " -> " .. state.name)
   else
-    print("Pushing state " .. state.name)
+    Cardinal.Console:log("[state/manager.replace] pushing " .. state.name)
   end
   table.remove(Cardinal.State.stack)
   stateInstance = state:new()

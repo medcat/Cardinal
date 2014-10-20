@@ -15,12 +15,12 @@ Cardinal.Game.States.Console = class("Cardinal.Game.States.Console"):
   end,
 
   load = function(self)
-
-    self.inputBox = Cardinal.Entity.Text:new("", 0, 900 - 32)
+    self.inputBox = Cardinal.Entity.Text:new("", 0,
+      Cardinal.Screen.current.internal.height - 32)
     self.historyBox = Cardinal.Entity.Text:new("")
     self.inputBox.textColor = {255, 255, 255}
     self.historyBox.textColor = {255, 255, 255}
-    self.historyBox.text = table.concat(Cardinal.Console.history, "\n")
+
     self.group:
       add({
         zindex = 0,
@@ -28,7 +28,7 @@ Cardinal.Game.States.Console = class("Cardinal.Game.States.Console"):
           self.super.initialize(self, 0, 0, 1600, 900)
         end,
         draw = function(self)
-          love.graphics.setColor(0, 0, 0, 75)
+          love.graphics.setColor(0, 0, 0, 125)
           love.graphics.rectangle("fill", self.coord.x, self.coord.y,
             self.size.width, self.size.height)
         end
@@ -45,8 +45,8 @@ Cardinal.Game.States.Console = class("Cardinal.Game.States.Console"):
       add(self.historyBox):
       add(Cardinal.Game.Effects.Font, "assets/inconsolata.otf", 32):
       addDefaults()
-    self.line = ""
 
+    self.line = ""
     self.super.load(self)
   end,
 
@@ -61,6 +61,10 @@ Cardinal.Game.States.Console = class("Cardinal.Game.States.Console"):
     if k == "backspace" then
       self.line = string.sub(self.line, 1, -2)
     elseif k == "return" then
+      if not self.line:find("return") then
+        self.line = "return " .. self.line
+      end
+
       Cardinal.Console:log("> " .. self.line)
 
       status, func = loadstring(self.line)
@@ -92,22 +96,11 @@ Cardinal.Game.States.Console = class("Cardinal.Game.States.Console"):
 
   update = function(self, dt)
     self.inputBox.text = "> " .. self.line .. "\x7c"
+    self.historyBox.text = table.concat(Cardinal.Console.history, "\n")
     self.super.update(self, dt)
 
     if Cardinal.Controller.current:isPressed("exit") then
       love.event.quit()
     end
   end,
-}
-
-Cardinal.Console = {
-  history = {},
-  log = function(self, part)
-    if #self.history > self.limit then
-      self.history = { unpack(self.history, #self.history - self.limit, #self.history) }
-    end
-
-    table.insert(self.history, part)
-  end,
-  limit = 20,
 }

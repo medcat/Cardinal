@@ -11,12 +11,15 @@ Cardinal.Game.States.MainMenu = class("Cardinal.Game.States.MainMenu"):
 
         draw = function(self)
           local screen = Cardinal.Screen.current
-          love.graphics.setColor(255, 0, 0)
+          love.graphics.setColor(255, 255, 255)
           love.graphics.rectangle("fill", 0, 0, screen.internal.width, screen.internal.height)
         end,
       }):
+      add(Cardinal.Game.Assets.duck):
       add(Cardinal.Game.Effects.Font, "assets/yoster.ttf", 24):
+      add(Cardinal.Game.Effects.BackgroundColor, {255, 255, 255, 255}):
       addDefaults()
+
     self.super.load(self)
   end,
 
@@ -36,7 +39,7 @@ Cardinal.Game.States.MainMenu = class("Cardinal.Game.States.MainMenu"):
     if k == "`" then
       Cardinal.State.push(Cardinal.Game.States.Console)
     elseif k == "c" then
-      Cardinal.State.replace(Cardinal.Game.States.InGame)
+      Cardinal.State.push(Cardinal.Game.States.InGame)
     end
   end,
 
