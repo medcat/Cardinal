@@ -1,17 +1,16 @@
-bishop.entity.text = class("bishop.entity.text"):
-  extends(bishop.entity)
-{
-  text = "",
-  textColor = nil,
-  wrap = false,
+define "bishop.entity.text": extends "bishop.entity":
+as(function(class, instance)
+  instance.text = ""
+  instance.textColor = nil
+  instance.wrap = false
 
-  initialize = function(self, text, ...)
+  function instance:initialize(text, ...)
     self.text = text
     self.textColor = {0, 0, 0}
     self.super.initialize(self, ...)
-  end,
+  end
 
-  draw = function(self)
+  function instance:draw()
     local r, g, b, a
     r, g, b, a = love.graphics.getColor()
     love.graphics.setColor(unpack(self.textColor))
@@ -22,5 +21,5 @@ bishop.entity.text = class("bishop.entity.text"):
       love.graphics.print(self.text, self.coord.x, self.coord.y)
     end
     love.graphics.setColor(r, g, b, a)
-  end,
-}
+  end
+end)

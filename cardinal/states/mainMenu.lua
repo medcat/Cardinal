@@ -1,7 +1,6 @@
-cardinal.states.mainMenu = class("cardinal.states.mainMenu"):
-  extends(bishop.state)
-{
-  load = function(self)
+define "cardinal.states.mainMenu": extends "bishop.state":
+as(function(class, instance)
+  function instance:load()
     self.group:
       add(bishop.entity.text, "Main Menu", 800):
       add({
@@ -21,31 +20,32 @@ cardinal.states.mainMenu = class("cardinal.states.mainMenu"):
       addDefaults()
 
     self.super.load(self)
-  end,
+  end
 
-  enter = function(self)
+  function instance:enter()
     love.mouse.setGrabbed(true)
     love.mouse.setVisible(false)
     self.super.enter(self)
-  end,
+  end
 
-  leave = function(self)
+  function instance:leave()
     love.mouse.setGrabbed(false)
     love.mouse.setVisible(true)
     self.super.leave(self)
-  end,
+  end
 
-  release = function(self, k)
+  function instance:release(k)
     if k == "`" then
       bishop.state.push(cardinal.states.console)
     elseif k == "c" then
       bishop.state.push(cardinal.states.inGame)
     end
-  end,
+  end
 
-  update = function(self, dt)
+  function instance:update(dt)
     if bishop.controller.current:isPressed("exit") then
       love.event.quit()
     end
-  end,
-}
+  end
+
+end)

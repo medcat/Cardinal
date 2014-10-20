@@ -28,6 +28,17 @@ local function defineCall(self, _)
   return definition
 end
 
+function define.anon(self, _)
+  local name = _ or self
+  local deifnition = {}
+
+  setmetatable(definition, { __index = define.definition })
+
+  definition.name = name
+  definition.anon = true
+  return definition
+end
+
 setmetatable(define, { __call = defineCall })
 
 -- Given a path, such as "a.b.c.d", gets the value of the "d" key on
@@ -67,12 +78,13 @@ end
 -----------------------
 -- A definition instance.  This is returned by defineCall.
 define.definition = {
-  type = "class",
-  name = "<anon>",
+  _type = "class",
+  name  = "<anon>",
+  anon  = true
 }
 
 function define.definition:type(newType)
-  self.type = newType
+  self._type = newType
   return self
 end
 
@@ -87,8 +99,8 @@ end
 
 function define.definition:as(content)
   self.content = content
-  print(self.type)
-  return define.types[self.type]:finalize(self)
+  print(self._type)
+  return define.types[self._type]:finalize(self)
 end
 
 ---------------------
@@ -138,10 +150,15 @@ function classType:finalize(definition)
     end,
   })
 
-  definition.content(instance)
+  definition.content(klass, instance)
 
   klass.__def = def
-  define.set(definition.name, klass)
+
+  if not definition.anon then
+    define.set(definition.name, klass)
+  end
+
+  return klass
 end
 
 function moduleType:finalize(definition)
@@ -150,7 +167,11 @@ function moduleType:finalize(definition)
   setmetatable(value, { definition = definition })
   definition.content(value)
 
-  define.set(definition.name, value)
+  if not definition.anon then
+    define.set(definition.name, value)
+  end
+
+  return value
 end
 
 class = {
@@ -159,7 +180,7 @@ class = {
     instance.super = {}
 
     setmetatable(instance.super, {
-      __index = class.__super,
+      __index = self.__instance.__super,
       __newindex = function(_, k, v)
         error("Attempted assignment on super table!", 2)
       end,
@@ -189,10 +210,11 @@ class = {
       return true
     end
 
-    if self == class then
+    if self.name == class.name then
       return false
     end
 
+    print(self)
     return self.super:hasParent(check)
   end,
 
@@ -208,6 +230,3 @@ class = {
   }
 
 }
-
-
-define "test.this": type "class": as(function(t) t.nn = 2 end)

@@ -1,4 +1,4 @@
-cardinal.assets.duck = bishop.asset:new()
+--[[cardinal.assets.duck = bishop.asset:new()
 local duck = cardinal.assets.duck
 
 duck.variants.default = class("duck.variants.default"):
@@ -23,3 +23,4 @@ duck.variants.default = class("duck.variants.default"):
   end,
 
 }:new()
+]]

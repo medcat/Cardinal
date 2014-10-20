@@ -4,6 +4,7 @@
   return a class object.
 ]]--
 function class(name)
+  print("WARN: The class method is deprecated!  Use define instead!")
   local klassable = {__instance={},super=Class,name=name}
 
   setmetatable(klassable, {__call=function(self, definition)

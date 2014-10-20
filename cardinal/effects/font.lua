@@ -1,21 +1,20 @@
-cardinal.effects.font = class("cardinal.effects.font"):
-  extends(bishop.effect)
-{
-  initialize = function(self, fontName, fontSize)
+define "cardinal.effects.font": extends "bishop.effect":
+as(function(class, instance)
+  function instance:initialize(fontName, fontSize)
     self._fontData = {name=fontName,size=fontSize}
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     self.oldFont = love.graphics.getFont()
     self.font = love.graphics.newFont(self._fontData.name,
       self._fontData.size)
-  end,
+  end
 
-  beforeEach = function(self)
+  function instance:beforeEach()
     love.graphics.setFont(self.font)
-  end,
+  end
 
-  afterEach = function(self)
+  function instance:afterEach()
     love.graphics.setFont(self.oldFont)
-  end,
-}
+  end
+end)

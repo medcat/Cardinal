@@ -1,5 +1,4 @@
-bishop.asset.image = class("bishop.asset.image"):
-  extends(bishop.asset)
-{
+define "bishop.asset.image": extends "bishop.asset":
+as(function(class, instance)
 
-}
+end)

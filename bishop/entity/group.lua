@@ -1,29 +1,32 @@
-bishop.entity.group = class("bishop.entity.group") : extends(bishop.entity)
-{
-  parts = nil,
-  effects = nil,
+define "bishop.entity.group": extends "bishop.entity":
+as(function(class, instance)
 
-  initialize = function(self)
+  instance.parts = nil
+  instance.effects = nil
+
+  function instance:initialize()
     self.parts = {}
     self.effects = {}
     self._loaded = false
     self.super.initialize(self)
-  end,
+  end
 
-  add = function(self, entity, ...)
+  function instance:add(entity, ...)
     local part
 
     if type(entity) == "function" then
-      part = class("<anon>.group/function"):
-        extends(bishop.entity)({draw=entity}):new()
+      --part = class("<anon>.group/function"):
+      --  extends(bishop.entity)({draw=entity}):new()
+      part = define.anon("<anon>.group.function"):
+        extends("bishop.entity"):
+        as(entity):new()
     elseif entity.new then
       part = entity:new(...)
     elseif entity.isA and (entity:isA(bishop.entity) or
       entity:isA(bishop.effect)) then
       part = entity
     else
-      part = class("<anon>.group/table"):
-        extends(bishop.entity)(entity):new()
+      error("Unknown entity type!")
     end
 
     if part:isA(bishop.entity) then
@@ -39,15 +42,14 @@ bishop.entity.group = class("bishop.entity.group") : extends(bishop.entity)
     end
 
     return self
-  end,
+  end
 
-  addDefaults = function(self)
+  function instance:addDefaults()
     self:add(cardinal.effects.reset:new())
-    --self:add(cardinal.Effects.Resize:new(bishop.screen.current))
     return self
-  end,
+  end
 
-  remove = function(self, entity)
+  function instance:remove(entity)
     if entity:isA(bishop.entity) then
       for k, v in ipairs(self.parts) do
         if v == entity then
@@ -65,15 +67,15 @@ bishop.entity.group = class("bishop.entity.group") : extends(bishop.entity)
     end
 
     return self
-  end,
+  end
 
-  _presortParts = function(self)
+  function instance:_presortParts()
     table.sort(self.parts, function(first, second)
       return first.zindex < second.zindex
     end)
-  end,
+  end
 
-  load = function(self)
+  function instance:load()
     self:_presortParts()
 
     for k, v in ipairs(self.parts) do
@@ -86,9 +88,9 @@ bishop.entity.group = class("bishop.entity.group") : extends(bishop.entity)
 
     self._loaded = true
     return self
-  end,
+  end
 
-  update = function(self, dt)
+  function instance:update(dt)
     self:_presortParts()
 
     for k, v in ipairs(self.parts) do
@@ -96,9 +98,9 @@ bishop.entity.group = class("bishop.entity.group") : extends(bishop.entity)
     end
 
     return self
-  end,
+  end
 
-  draw = function(self)
+  function instance:draw()
     self:_presortParts()
 
     for k, v in ipairs(self.effects) do
@@ -117,4 +119,4 @@ bishop.entity.group = class("bishop.entity.group") : extends(bishop.entity)
 
     return self
   end
-}
+end)
