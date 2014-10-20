@@ -1,26 +1,13 @@
-Cardinal = { Game = { } }
-
-require "ext.serialize"
-require "core.class"
-require "core.drawable"
-require "core.screen"
-require "core.effect"
-require "core.entity"
-require "core.asset"
-require "core.state"
-require "core.controller"
-require "core.map"
-require "game.assets"
-require "game.effects"
-require "game.states"
-require "game.maps"
+require "ext"
+require "core"
+require "game"
 
 function love.load()
   Cardinal.Screen.current = Cardinal.Screen:new()
   Cardinal.Controller.current = Cardinal.Controller.Keyboard:new()
-  Cardinal.State.replace(Cardinal.Game.States.MainMenu)
+  Cardinal.State.push(Cardinal.Game.States.MainMenu)
   Cardinal.Screen.current:update()
-  print(Cardinal.Screen.current:output())
+  Cardinal.Console:log(Cardinal.Screen.current:output())
 end
 
 function love.update(dt)

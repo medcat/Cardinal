@@ -58,7 +58,7 @@ Cardinal.Screen = class("Cardinal.Screen")
   end,
 
   output = function(self)
-    return "scale: " .. self.scale .. " " ..
+    return "[screen] scale: " .. self.scale .. " " ..
       "real: (" .. self.real.width .. ", " .. self.real.height .. ") " ..
       "offset: (" .. self.offset.x .. ", " .. self.offset.y    .. ") " ..
       "new: (" ..  self.size.width .. ", " .. self.size.height .. ") "
@@ -83,8 +83,10 @@ Cardinal.Screen = class("Cardinal.Screen")
 
   enterEncapsulate = function(self)
     love.graphics.push()
-    love.graphics.scale(self.scale)
     love.graphics.translate(self.offset.x, self.offset.y)
+    love.graphics.scale(self.scale)
+    love.graphics.setScissor(self.offset.x, self.offset.y,
+      self.size.width, self.size.height)
   end,
 
   exitEncapsulate = function(self)
@@ -99,11 +101,13 @@ Cardinal.Screen = class("Cardinal.Screen")
 
   enterDencapsulate = function(self)
     love.graphics.push()
-    love.graphics.scale(1 / self.scale)
     love.graphics.origin()
+    love.graphics.setScissor()
   end,
 
   exitDencapsulate = function(self)
     love.graphics.pop()
+    love.graphics.setScissor(self.offset.x, self.offset.y,
+      self.size.width, self.size.height)
   end,
 }

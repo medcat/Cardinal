@@ -5,7 +5,6 @@
 ]]--
 function class(name)
   local klassable = {__instance={},super=Class,name=name}
-  print("Creating class " .. name)
 
   setmetatable(klassable, {__call=function(self, definition)
     klassable.__instance = definition or self
@@ -14,11 +13,13 @@ function class(name)
     klassable.__instance.class = klassable
     klassable.extends = nil
     setmetatable(klassable,
-      {__index=klassable.super})
+      {__index=klassable.super,
+        __tostring=function() return klassable:toString() end})
     setmetatable(klassable.__instance,
       {__index=klassable.super.__instance})
     setmetatable(klassable.__instance.super,
-      {__index=klassable.super.__instance})
+      {__index=klassable.super.__instance,
+        __tostring=function() return "#<" .. name .. "/super>" end })
     return klassable
   end})
 
@@ -38,7 +39,8 @@ Class =
 {
   new = function(self, ...)
     local instance = {}
-    setmetatable(instance, {__index=self.__instance})
+    setmetatable(instance, {__index=self.__instance,
+      __tostring=function() return instance:toString() end})
     if instance.initialize then
       instance:initialize(...)
     end
@@ -61,12 +63,19 @@ Class =
     return self.super:hasParent(check)
   end,
 
+  toString = function(self)
+    return self.name
+  end,
+
   __instance =
   {
     initialize = function() end,
     isA = function(self, check)
       assert(self and check, "Nil passed to isA")
       return self.class:hasParent(check)
+    end,
+    toString = function(self)
+      return "#<" .. tostring(self.class) .. ">"
     end,
   },
 }

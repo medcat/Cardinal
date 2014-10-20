@@ -7,7 +7,7 @@ duck.variants.default = class("duck.variants.default"):
   initialize = function(self)
     self.super.initialize(self)
     self.path  = "assets/duck.jpg"
-    self.coord = { x = 0, y = 0 }
+    self.coord = { x = 0, y = 200 }
     self.size  = {
       width    = 800,
       height   = 765
@@ -15,11 +15,11 @@ duck.variants.default = class("duck.variants.default"):
   end,
 
   load = function(self)
-    self.duck = love.graphics.newImage(self.path)
+    self.image = love.graphics.newImage(self.path)
   end,
 
   draw = function(self)
-    love.graphics.draw(self.duck)
-  end
+    love.graphics.draw(self.image)
+  end,
 
 }:new()
