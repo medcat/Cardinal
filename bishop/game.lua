@@ -67,6 +67,7 @@ as(function(class, instance)
   function instance:resize(...)
     love.graphics.clear()
     self.screen:refresh(...)
+    self.stack:current():resize(...)
   end
 
 end)

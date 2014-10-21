@@ -37,6 +37,11 @@ as(function(class, instance)
     self.group:update(dt)
   end
 
+  function instance:resize(w, h)
+    bishop.console:log("[state] resize " .. "(" .. w .. ", "
+      .. h .. ")")
+  end
+
   function instance:input() end
   function instance:press() end
   function instance:release() end

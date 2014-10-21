@@ -13,11 +13,12 @@ return {
       firstgid = 1,
       tilewidth = 128,
       tileheight = 128,
-      spacing = 0,
-      margin = 0,
+      spacing = 1,
+      margin = 1,
       image = "main.jpg",
-      imagewidth = 384,
-      imageheight = 128,
+      imagewidth = 388,
+      imageheight = 130,
+      transparentcolor = "#ff00ff",
       properties = {},
       tiles = {}
     }

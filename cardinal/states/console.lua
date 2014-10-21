@@ -5,6 +5,7 @@ as(function(class, instance)
     love.keyboard.setKeyRepeat(true)
     self.screenshot = love.graphics.newImage(love.graphics.newScreenshot())
     self.super.enter(self)
+    self.lastState = cardinal.stack:current()
   end
 
   function instance:leave()
@@ -37,6 +38,10 @@ as(function(class, instance)
       add(function(_, inst)
         inst.zindex = -1
         function inst.draw(this)
+          if self.screenshot == nil then
+            self:_screenshot(cardinal.screen.real.width, cardinal.screen.real.height)
+          end
+
           cardinal.screen:dencapsulate(function()
             love.graphics.draw(self.screenshot, 0, 0)
           end)
@@ -93,6 +98,31 @@ as(function(class, instance)
     if k == "`" then
       cardinal.stack:pop()
     end
+  end
+
+  function instance:resize(...)
+    --[[local canvas = love.graphics.newCanvas(...)
+    local imageData
+    canvas:clear()
+    love.graphics.setCanvas(canvas)
+    self.lastState:update(0)
+    self.lastState:draw()
+    love.graphics.setCanvas()
+    imageData = canvas:getImageData()
+    imageData:encode("test.png")]]
+    self.screenshot =  nil--love.graphics.newImage(imageData)
+  end
+
+  function instance:_screenshot(...)
+    local canvas = love.graphics.newCanvas(...)
+    local imageData
+
+    self.lastState:update(0)
+    self.lastState:draw()
+
+    imageData = love.graphics.newScreenshot()
+    love.graphics.clear()
+    self.screenshot = love.graphics.newImage(imageData)
   end
 
   function instance:update(dt)

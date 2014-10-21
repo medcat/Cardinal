@@ -15,20 +15,20 @@ local function keytostr(k)
   if "string" == type( k ) and string.match( k, "^[_%a][_%a%d]*$" ) then
     return k
   else
-    return "[" .. table.val_to_str( k ) .. "]"
+    return "[" .. table.valtostr( k ) .. "]"
   end
 end
 
-function table.tostring(table)
+function table.tostring(tbl)
   local result, done = {}, {}
   for k, v in ipairs( tbl ) do
-    table.insert( result, table.val_to_str( v ) )
+    table.insert( result, valtostr( v ) )
     done[ k ] = true
   end
   for k, v in pairs( tbl ) do
     if not done[ k ] then
       table.insert( result,
-        table.key_to_str( k ) .. "=" .. table.val_to_str( v ) )
+        keytostr( k ) .. "=" .. valtostr( v ) )
     end
   end
   return "{" .. table.concat( result, "," ) .. "}"

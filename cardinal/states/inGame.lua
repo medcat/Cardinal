@@ -10,7 +10,7 @@ as(function(class, instance)
 
   function instance:release(key)
     if key == "`" then
-      bishop.state.push(cardinal.states.console)
+      cardinal.stack:push(cardinal.states.console)
     end
   end
 end)

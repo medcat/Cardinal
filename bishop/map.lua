@@ -41,3 +41,5 @@ as(function(class, instance)
     love.graphics.draw(self.spritebatch)
   end
 end)
+
+require "bishop.map.tiled"
