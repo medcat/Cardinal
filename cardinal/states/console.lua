@@ -101,16 +101,7 @@ as(function(class, instance)
   end
 
   function instance:resize(...)
-    --[[local canvas = love.graphics.newCanvas(...)
-    local imageData
-    canvas:clear()
-    love.graphics.setCanvas(canvas)
-    self.lastState:update(0)
-    self.lastState:draw()
-    love.graphics.setCanvas()
-    imageData = canvas:getImageData()
-    imageData:encode("test.png")]]
-    self.screenshot =  nil--love.graphics.newImage(imageData)
+    self.screenshot =  nil
   end
 
   function instance:_screenshot(...)
