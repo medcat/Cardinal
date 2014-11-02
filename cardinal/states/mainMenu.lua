@@ -44,7 +44,7 @@ as(function(class, instance)
 
   function instance:update(dt)
     if cardinal.controller:isPressed("exit") then
-      love.event.quit()
+      cardinal:exit()
     end
   end
 

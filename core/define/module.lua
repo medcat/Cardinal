@@ -3,12 +3,15 @@ define.types.module = module
 
 function module:finalize(definition)
   local value = {}
-
-  setmetatable(value, {
+  value._meta = {
     definition = definition,
-    __index    = module,
+    __index    = {
+      tostring = function(self) return "#module<" .. self.name .. ">" end,
+      name     = "module"
+    },
     __tostring = function() return value:tostring() end
-  })
+  }
+  setmetatable(value, value._meta)
   value.name = definition.name
   definition.content(value)
 
@@ -18,11 +21,3 @@ function module:finalize(definition)
 
   return value
 end
-
-module = {
-  tostring = function(self)
-    return "#module<" .. self.name .. ">"
-  end,
-
-  name = "module"
-}

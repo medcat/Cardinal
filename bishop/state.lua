@@ -1,4 +1,4 @@
-define "bishop.state": extends "bishop.drawable":
+define "bishop.state": extends "bishop.entity":
 as(function(class, instance)
 
   instance.group = nil
@@ -41,10 +41,6 @@ as(function(class, instance)
     bishop.console:log("[state] resize " .. "(" .. w .. ", "
       .. h .. ")")
   end
-
-  function instance:input() end
-  function instance:press() end
-  function instance:release() end
 end)
 
 require "bishop.state.stack"

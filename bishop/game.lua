@@ -25,6 +25,10 @@ as(function(class, instance)
     self.name    = name
   end
 
+  function instance:exit()
+    love.event.quit()
+  end
+
   function instance:starting()
     return self.states.mainMenu
   end

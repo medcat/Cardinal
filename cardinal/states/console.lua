@@ -7,13 +7,11 @@ as(function(class, instance)
     self.super.enter(self)
     self.lastState = cardinal.stack:current()
   end
-
   function instance:leave()
     love.keyboard.setTextInput(false)
     love.keyboard.setKeyRepeat(false)
     self.super.leave(self)
   end
-
   function instance:load()
     self.inputBox = bishop.entity.text:new("", 0,
       cardinal.screen.internal.height - 32)
@@ -55,13 +53,11 @@ as(function(class, instance)
     self.line = ""
     self.super.load(self)
   end
-
   function instance:input(t)
     if t ~= "`" then
       self.line = self.line .. t
     end
   end
-
   function instance:press(k, r)
     local body, func, val, status, err = nil
     if k == "backspace" then
@@ -93,17 +89,14 @@ as(function(class, instance)
       self.historyBox.text = table.concat(cardinal.console.history, "\n")
     end
   end
-
   function instance:release(k)
     if k == "`" then
       cardinal.stack:pop()
     end
   end
-
   function instance:resize(...)
-    self.screenshot =  nil
+    self.screenshot = nil
   end
-
   function instance:_screenshot(...)
     local canvas = love.graphics.newCanvas(...)
     local imageData
@@ -115,14 +108,13 @@ as(function(class, instance)
     love.graphics.clear()
     self.screenshot = love.graphics.newImage(imageData)
   end
-
   function instance:update(dt)
     self.inputBox.text = "> " .. self.line .. "\x7c"
     self.historyBox.text = table.concat(cardinal.console.history, "\n")
     self.super.update(self, dt)
 
     if cardinal.controller:isPressed("exit") then
-      love.event.quit()
+      cardinal:exit()
     end
   end
 end)

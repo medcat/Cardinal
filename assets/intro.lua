@@ -19,6 +19,10 @@ return {
       imagewidth = 388,
       imageheight = 130,
       transparentcolor = "#ff00ff",
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
       properties = {},
       tiles = {}
     }
@@ -69,6 +73,7 @@ return {
           y = 942,
           width = 127,
           height = 206,
+          rotation = 0,
           visible = true,
           properties = {}
         }

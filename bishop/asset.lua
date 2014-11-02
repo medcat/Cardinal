@@ -28,11 +28,11 @@ as(function(class, instance)
     return self:variant():draw()
   end
 
-  function instance:keypress(key)
+  function instance:press(key)
     return self:variant():keypress(key)
   end
 
-  function instance:keyrelease(key)
+  function instance:release(key)
     return self:variant():keyrelease(key)
   end
 end)

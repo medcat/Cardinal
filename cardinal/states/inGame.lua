@@ -13,4 +13,12 @@ as(function(class, instance)
       cardinal.stack:push(cardinal.states.console)
     end
   end
+
+  function instance:update(...)
+    if cardinal.controller:isPressed("exit") then
+      cardinal:exit()
+    end
+
+    self.super.update(self, ...)
+  end
 end)
