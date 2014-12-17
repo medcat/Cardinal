@@ -4,6 +4,7 @@ as(function(class, instance)
     love.keyboard.setTextInput(true)
     love.keyboard.setKeyRepeat(true)
     self.screenshot = love.graphics.newImage(love.graphics.newScreenshot())
+    cardinal.console:log(cardinal.stack:nth(2))
     self.super.enter(self)
   end
 
@@ -84,7 +85,7 @@ as(function(class, instance)
       end
 
       self.line = ""
-      self.inputBox.text = "> \x7c"
+      self.inputBox.text = "> _" -- "\x7c"
       self.historyBox.text = table.concat(cardinal.console.history, "\n")
     end
   end
@@ -96,7 +97,7 @@ as(function(class, instance)
   end
 
   function instance:update(dt)
-    self.inputBox.text = "> " .. self.line .. "\x7c"
+    self.inputBox.text = "> " .. self.line .. "_" --"\x7c"
     self.historyBox.text = table.concat(cardinal.console.history, "\n")
     self.super.update(self, dt)
 

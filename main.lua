@@ -1,3 +1,4 @@
+require "lib"
 require "core"
 require "bishop"
 require "cardinal"

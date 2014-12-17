@@ -11,6 +11,14 @@ as(function(class, instance)
     return self.stack[#self.stack]
   end
 
+  function instance:nth(n)
+    if n > (#self.stack + 1) then
+      error("Argument n is greater than stack size!")
+    end
+
+    return self.stack[#self.stack - n]
+  end
+
   function instance:push(pushed)
     local stateInstance, current
     current = self:current()
