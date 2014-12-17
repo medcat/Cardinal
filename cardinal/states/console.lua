@@ -1,17 +1,23 @@
 define "cardinal.states.console": extends "bishop.state":
 as(function(class, instance)
+
+  instance.inputHistory = nil
+
   function instance:enter()
     love.keyboard.setTextInput(true)
     love.keyboard.setKeyRepeat(true)
     self.screenshot = love.graphics.newImage(love.graphics.newScreenshot())
     self.super.enter(self)
     self.lastState = cardinal.stack:current()
+    self.inputHistory = {}
   end
+
   function instance:leave()
     love.keyboard.setTextInput(false)
     love.keyboard.setKeyRepeat(false)
     self.super.leave(self)
   end
+
   function instance:load()
     self.inputBox = bishop.entity.text:new("", 0,
       cardinal.screen.internal.height - 32)
@@ -53,16 +59,23 @@ as(function(class, instance)
     self.line = ""
     self.super.load(self)
   end
+
   function instance:input(t)
     if t ~= "`" then
       self.line = self.line .. t
     end
   end
+
   function instance:press(k, r)
     local body, func, val, status, err = nil
+    print(k)
     if k == "backspace" then
       self.line = string.sub(self.line, 1, -2)
+    elseif k == "up" then
+      self.line = self.inputHistory[#self.inputHistory] or ""
     elseif k == "return" then
+      table.insert(self.inputHistory, self.line)
+
       if not self.line:find("return") then
         self.line = "return " .. self.line
       end
@@ -79,24 +92,27 @@ as(function(class, instance)
       end
 
       if err then
-        cardinal.console:log("] error: " .. tostring(err))
+        self:_log("Error: " .. tostring(err))
       else
-        cardinal.console:log("] " .. tostring(val))
+        self:_log(tostring(val))
       end
 
       self.line = ""
-      self.inputBox.text = "> \x7c"
+      self.inputBox.text = "> _"
       self.historyBox.text = table.concat(cardinal.console.history, "\n")
     end
   end
+
   function instance:release(k)
     if k == "`" then
       cardinal.stack:pop()
     end
   end
+
   function instance:resize(...)
     self.screenshot = nil
   end
+
   function instance:_screenshot(...)
     local canvas = love.graphics.newCanvas(...)
     local imageData
@@ -108,13 +124,27 @@ as(function(class, instance)
     love.graphics.clear()
     self.screenshot = love.graphics.newImage(imageData)
   end
+
   function instance:update(dt)
-    self.inputBox.text = "> " .. self.line .. "\x7c"
+    self.inputBox.text = "> " .. self.line .. "_"
     self.historyBox.text = table.concat(cardinal.console.history, "\n")
     self.super.update(self, dt)
 
     if cardinal.controller:isPressed("exit") then
       cardinal:exit()
     end
+  end
+
+  function instance:_log(string)
+    local log = {}
+    local result = ""
+
+    for token in string.gmatch(string, "[^\r\n]+") do
+      table.insert(log, token)
+    end
+
+    result = "] " .. table.concat(log, "\n] ")
+
+    cardinal.console:log(result)
   end
 end)

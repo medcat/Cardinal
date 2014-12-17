@@ -66,7 +66,8 @@ mainClass = {
 
     setmetatable(instance, {
       __index = self.__instance,
-      __tostring = function() return instance:tostring() end
+      __tostring = function() return instance:tostring() end,
+      __tabletostring = function() return "{nope}" end,
     })
 
     if instance.initialize then

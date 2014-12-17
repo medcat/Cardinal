@@ -1,35 +1,49 @@
-local function valtostr(v)
-  if "string" == type( v ) then
-    v = string.gsub( v, "\n", "\\n" )
-    if string.match( string.gsub(v,"[^'\"]",""), '^"+$' ) then
+local function valtostr(v, stack)
+  if type(v) == "string" then
+    v = string.gsub(v, "\n", "\\n")
+    if string.match(string.gsub(v,"[^'\"]",""), '^"+$') then
       return "'" .. v .. "'"
     end
-    return '"' .. string.gsub(v,'"', '\\"' ) .. '"'
+    return '"' .. string.gsub(v, '"', '\\"') .. '"'
   else
-    return "table" == type( v ) and table.tostring( v ) or
-      tostring( v )
+    return type(v) == "table" and table.tostring(v, stack + 1) or
+      tostring(v)
   end
 end
 
 local function keytostr(k)
-  if "string" == type( k ) and string.match( k, "^[_%a][_%a%d]*$" ) then
+  if type(k) == "string" and string.match(k, "^[_%a][_%a%d]*$") then
     return k
   else
-    return "[" .. table.valtostr( k ) .. "]"
+    return "[" .. table.valtostr(k, stack + 1) .. "]"
   end
 end
 
-function table.tostring(tbl)
+function table.tostring(tbl, stack)
   local result, done = {}, {}
-  for k, v in ipairs( tbl ) do
-    table.insert( result, valtostr( v ) )
+  local mt, key, indent, value
+  stack = stack or 0
+
+  if stack > 3 then
+    return "{...}"
+  end
+
+  for k, v in ipairs(tbl) do
+    table.insert(result, valtostr(v, stack + 1))
     done[ k ] = true
   end
-  for k, v in pairs( tbl ) do
-    if not done[ k ] then
-      table.insert( result,
-        keytostr( k ) .. "=" .. valtostr( v ) )
+  for k, v in pairs(tbl) do
+    if not done[k] then
+      key = keytostr(k, stack + 1)
+
+      if key and string.sub(key, 1, 1) ~= "_" then
+        table.insert(result,
+          key .. " = " .. valtostr(v, stack + 1))
+      end
     end
   end
-  return "{" .. table.concat( result, "," ) .. "}"
+
+  indent = string.rep(" ", stack + 1)
+  value = table.concat(result, ",\n" .. indent)
+  return "{\n" .. indent .. value .. "}"
 end

@@ -11,6 +11,7 @@ as(function(class, instance)
   instance.console    = nil
 
   instance.stack      = nil
+  instance.meter      = 64
 
   -- By default, there is no current game.  This MUST be set by
   -- the programmer.
