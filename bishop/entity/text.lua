@@ -3,10 +3,12 @@ as(function(class, instance)
   instance.text = ""
   instance.textColor = nil
   instance.wrap = false
+  instance.max = nil
 
   function instance:initialize(text, ...)
     self.text = text
     self.textColor = {0, 0, 0}
+    self.max = bishop.game.current.screen.internal.width
     self.super.initialize(self, ...)
   end
 
@@ -16,7 +18,7 @@ as(function(class, instance)
     love.graphics.setColor(unpack(self.textColor))
     if self.wrap then
       love.graphics.printf(self.text, self.coord.x, self.coord.y,
-        bishop.screen.current.internal.width - self.coord.x)
+        self.max - self.coord.x)
     else
       love.graphics.print(self.text, self.coord.x, self.coord.y)
     end

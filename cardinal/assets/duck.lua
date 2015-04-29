@@ -7,10 +7,7 @@ extends("bishop.asset.variant"): as(function(class, instance)
     self.super.initialize(self)
     self.path  = "assets/duck.jpg"
     self.coord = { x = 0, y = 200 }
-    self.size  = {
-      width    = 800,
-      height   = 765
-    }
+    self.size  = { width = 800, height = 765 }
   end
 
   function instance:load()

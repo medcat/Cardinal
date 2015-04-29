@@ -1,6 +1,15 @@
 define "bishop.game":
 as(function(class, instance)
 
+  local BISHOP_MESSAGE = [[
+[bishop] Bishop version ]] .. bishop.version .. [[
+
+[bishop]
+[bishop] Bishop is licensed under the MIT license, and
+[bishop] therefore is completely free to use under any
+[bishop] purpose, personal or commercial.  For more
+[bishop] information, contact redjazz96@gmail.com.]]
+
   instance.assets     = nil
   instance.effects    = nil
   instance.assets     = nil
@@ -11,7 +20,7 @@ as(function(class, instance)
   instance.console    = nil
 
   instance.stack      = nil
-  instance.meter      = 64
+  instance.meter      = 32
 
   -- By default, there is no current game.  This MUST be set by
   -- the programmer.
@@ -40,9 +49,11 @@ as(function(class, instance)
     self.console    = bishop.console:new()
     self.stack      = bishop.state.stack:new()
 
-    self.console:log("[" .. self.name .. "] loaded.")
+    bishop.save:loadSaveData()
+    self.screen:load()
+    self.console:log(BISHOP_MESSAGE)
+    self.console:log("[bishop] game \"" .. self.name .. "\" loaded.")
     self.screen:update()
-    self.console:log(self.screen:output())
     self.stack:push(self:starting())
   end
 

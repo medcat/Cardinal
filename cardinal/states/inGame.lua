@@ -8,9 +8,9 @@ as(function(class, instance)
     self.super.load(self)
   end
 
-  function instance:release(key)
+  function instance:press(key)
     if key == "`" then
-      cardinal.stack:push(cardinal.states.console)
+      cardinal.stack:push(bishop.states.console, "assets/anonpro.ttf")
     end
   end
 

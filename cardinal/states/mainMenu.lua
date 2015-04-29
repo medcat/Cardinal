@@ -14,8 +14,9 @@ as(function(class, instance)
           love.graphics.rectangle("fill", 0, 0, screen.internal.width, screen.internal.height)
         end
       end):
+      add(bishop.effects.debug, "mainMenu", false):
       add(cardinal.assets.duck):
-      add(cardinal.effects.font, "assets/yoster.ttf", 24):
+      add(bishop.effects.font, "assets/yoster.ttf", 24):
       add(cardinal.effects.backgroundColor, {255, 255, 255, 255}):
       addDefaults()
 
@@ -34,10 +35,14 @@ as(function(class, instance)
     self.super.leave(self)
   end
 
-  function instance:release(k)
+  function instance:press(k)
     if k == "`" then
-      cardinal.stack:push(cardinal.states.console)
-    elseif k == "c" then
+      cardinal.stack:push(bishop.states.console, "assets/anonpro.ttf")
+    end
+  end
+
+  function instance:release(k)
+    if k == "c" then
       cardinal.stack:push(cardinal.states.inGame)
     end
   end

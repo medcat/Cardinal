@@ -11,7 +11,9 @@ function class:finalize(definition)
       super   = {},
       name    = definition.name
     },
-    instance = {}
+    instance = {
+      class   = klass
+    }
   }
 
   klass = def.class

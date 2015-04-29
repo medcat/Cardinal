@@ -13,6 +13,6 @@ as(function(class, instance)
   end
 
   function instance:afterAll()
-    --love.graphics.setBackgroundColor(unpack(self.oldColor))
+    love.graphics.setBackgroundColor(unpack(self.oldColor))
   end
 end)

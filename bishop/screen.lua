@@ -16,6 +16,21 @@ as(function(class, instance)
     self.size = { width = 0, height = 0 }
   end
 
+  table.merge(bishop.save.defaults.config, {
+    screen = {
+      width  = 800,
+      height = 600,
+      fullscreen = false
+    }
+  })
+
+  -- Loads the data from the Save file.
+  function instance:load()
+    local screenData = bishop.save.config.screen
+    love.window.setMode(screenData.width, screenData.height,
+      { fullscreen = screenData.fullscreen, resizable = true })
+  end
+
   function instance:update()
     local width, height
     width, height = love.window.getMode()
@@ -59,20 +74,9 @@ as(function(class, instance)
 
   function instance:output()
     return "[screen] scale: " .. self.scale .. " " ..
-      "real: (" .. self.real.width .. ", " .. self.real.height .. ") " ..
-      "offset: (" .. self.offset.x .. ", " .. self.offset.y    .. ") " ..
-      "new: (" ..  self.size.width .. ", " .. self.size.height .. ") "
-  end
-
-  function instance:translate(coordinate)
-    local realX, realY
-    if coordinate.realCoordinate then
-      return coordinate
-    else
-      realX = ((coordinate.x / self.width) * self.realWidth)
-      realY = ((coordinate.y / self.height) * self.realHeight)
-      return bishop.screen.coordinate:new(realX, realY, true)
-    end
+      "\nreal: (" .. self.real.width .. ", " .. self.real.height .. ") " ..
+      "\noffset: (" .. self.offset.x .. ", " .. self.offset.y    .. ") " ..
+      "\nnew: (" ..  self.size.width .. ", " .. self.size.height .. ") "
   end
 
   function instance:encapsulate(func, ...)
@@ -91,6 +95,7 @@ as(function(class, instance)
 
   function instance:exitEncapsulate()
     love.graphics.pop()
+    love.graphics.setScissor()
   end
 
   function instance:dencapsulate(func, ...)

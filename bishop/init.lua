@@ -1,12 +1,17 @@
 define.module "bishop"
 
+bishop.version = "0.0.1"
+
+require "bishop.save"
 require "bishop.console"
 require "bishop.drawable"
 require "bishop.screen"
 require "bishop.effect"
+require "bishop.effects"
 require "bishop.entity"
 require "bishop.asset"
 require "bishop.state"
+require "bishop.states"
 require "bishop.controller"
 require "bishop.map"
 require "bishop.game"

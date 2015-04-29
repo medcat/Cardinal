@@ -16,7 +16,7 @@
 
 -- We're going to set it to be a table, so we can access properties on
 -- it.
-define = {}
+define = { paths = {} }
 
 local function defineCall(self, _)
   local name = _ or self
@@ -52,8 +52,12 @@ setmetatable(define, { __call = defineCall })
 
 -- Given a path, such as "a.b.c.d", gets the value of the "d" key on
 -- the table "a.b.c".
-function define.get(path)
-  local v = _G
+function define.get(path, v)
+  local v = v or _G
+
+  if define.paths[path] and v == _G then
+    return define.paths[path]
+  end
 
   for w in string.gfind(path, "[%w_]+") do
     v = v[w]
@@ -65,8 +69,8 @@ end
 
 -- Given a path, such as "a.b.c.d", sets the value of the "d" key on
 -- the table "a.b.c".
-function define.set(path, value)
-  local top = _G
+function define.set(path, value, table)
+  local top = table or _G
 
   for w, d in string.gfind(path, "([%w_]+)(.?)") do
     if d == '.' then -- we're not in the last field
@@ -79,6 +83,10 @@ function define.set(path, value)
     else
       top[w] = value
     end
+  end
+
+  if not table or table == _G then
+    define.paths[path] = value
   end
 
   return value

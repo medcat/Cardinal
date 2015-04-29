@@ -17,7 +17,7 @@ as(function(class, instance)
     if type(entity) == "function" then
       part = define.anon("<anon>.group.function"):
         extends("bishop.entity"):
-        as(entity):new()
+        as(entity):new(...)
     elseif entity and entity.new then
       part = entity:new(...)
     elseif entity and entity.isa and (entity:isa(bishop.entity) or
@@ -28,10 +28,8 @@ as(function(class, instance)
     end
 
     if part:isa(bishop.entity) then
-      bishop.console:log("[group] adding entity " .. tostring(part))
       table.insert(self.parts, part)
     elseif part:isa(bishop.effect) then
-      bishop.console:log("[group] adding effect " .. tostring(part))
       table.insert(self.effects, part)
     else
       error("Unknown entity instance!")
@@ -45,8 +43,7 @@ as(function(class, instance)
   end
 
   function instance:addDefaults()
-    self:add(cardinal.effects.reset:new())
-    return self
+    return self:add(bishop.effects.reset)
   end
 
   function instance:remove(entity)
@@ -108,9 +105,9 @@ as(function(class, instance)
     end
 
     for k, v in ipairs(self.parts) do
-      for i, w in ipairs(self.effects) do w:beforeEach() end
+      for i, w in ipairs(self.effects) do w:beforeEach(v) end
       v:draw()
-      for i, w in ipairs(self.effects) do w:afterEach() end
+      for i, w in ipairs(self.effects) do w:afterEach(v) end
     end
 
     for k, v in ipairs(self.effects) do

@@ -8,10 +8,10 @@ as(function(class, instance)
     self.size  = { width = width or 0, height = height or 0 }
   end
 
-  function instance:resize() end
-  function instance:input() end
-  function instance:press() end
-  function instance:release() end
+  function instance:resize(...) end
+  function instance:input(...) end
+  function instance:press(...) end
+  function instance:release(...) end
 end)
 
 require "bishop.entity.group"
