@@ -174,7 +174,7 @@ as(function(class, instance)
 
     imageData = love.graphics.newScreenshot()
     love.graphics.clear()
-    imageData:encode("test.png")
+    imageData:encode("png", nil)
     self.screenshot = love.graphics.newImage(imageData)
   end
 end)

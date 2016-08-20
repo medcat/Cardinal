@@ -1,1 +1,1 @@
-lib = { sti = require "lib.sti" }
+lib = {}

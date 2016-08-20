@@ -71,12 +71,10 @@ as(function(class, instance)
 
     if self:_isAffected("line") then
       love.graphics.setLineWidth(1.0)
-      love.graphics.setLineStyle("smooth")
     end
 
     if self:_isAffected("point") then
       love.graphics.setPointSize(1.0)
-      love.graphics.setPointStyle("smooth")
     end
   end
 

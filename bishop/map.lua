@@ -8,7 +8,7 @@ as(function(class, instance)
     local internal = cardinal.screen.internal
 
     self.translate = { x = 0, y = 0 }
-    self._map = lib.sti.new(self.class.path)
+    self._map = lib.sti(self.class.path)
     self._map:resize(internal.width, internal.height)
   end
 
